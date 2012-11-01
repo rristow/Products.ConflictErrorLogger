@@ -174,7 +174,6 @@ class ConflictLogger(object):
     def notify_register(self, actual_conn, actual_obj):
         """ Some objective is been edited in ZODB.
         """
-        import pdb;pdb.set_trace()
         if os.environ.get('CELogger_ACTIVE', "true") == "true":
             # restarting
             if not self.is_active:
