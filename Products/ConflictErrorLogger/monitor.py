@@ -174,7 +174,8 @@ class ConflictLogger(object):
     def notify_register(self, actual_conn, actual_obj):
         """ Some objective is been edited in ZODB.
         """
-        if os.environ.get('CELogger_ACTIVE', True):
+        import pdb;pdb.set_trace()
+        if os.environ.get('CELogger_ACTIVE', "true") == "true":
             # restarting
             if not self.is_active:
                 self.obj_pool = {}
@@ -206,7 +207,7 @@ class ConflictLogger(object):
             pobject=None, oid=None, serials=None, data=None):
         """ A ConflictError is been raised.
         """
-        if not os.environ.get('CELogger_ACTIVE', True):
+        if os.environ.get('CELogger_ACTIVE', "true") == "true":
             return
 
         conflict_trace = self.search_conflicting_data(None, pobject)

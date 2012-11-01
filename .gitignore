@@ -1,1 +1,11 @@
-Products.ConflictErrorLogger.egg-info
+*.py[co]
+bin/*
+build/*
+coverage/*
+develop-eggs/*
+dist/*
+eggs/*
+*.egg-info
+.installed.cfg
+parts
+.mr.developer.cfg
