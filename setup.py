@@ -1,17 +1,17 @@
 from setuptools import setup, find_packages
 import os
 
-version = open(os.path.join("Products","ConflictErrorLogger",
+version = open(os.path.join("Products", "ConflictErrorLogger",
                             "version.txt")).read().strip()
 
 long_description = (
     open('README.txt').read()
-    + '\n' +
+    + '\n' + 
     'Contributors\n'
     '============\n'
-    + '\n' +
+    + '\n' + 
     open('CONTRIBUTORS.txt').read()
-    + '\n' +
+    + '\n' + 
     open('CHANGES.txt').read()
     + '\n')
 

@@ -62,8 +62,8 @@ sys.path[:] = clean_path
 for k, v in sys.modules.items():
     if k in ('setuptools', 'pkg_resources') or (
         hasattr(v, '__path__') and
-        len(v.__path__)==1 and
-        not os.path.exists(os.path.join(v.__path__[0],'__init__.py'))):
+        len(v.__path__) == 1 and
+        not os.path.exists(os.path.join(v.__path__[0], '__init__.py'))):
         # This is a namespace package.  Remove it.
         sys.modules.pop(k)
 
@@ -108,9 +108,9 @@ parser.add_option("-d", "--distribute",
 parser.add_option("--setup-source", action="callback", dest="setup_source",
                   callback=normalize_to_url, nargs=1, type="string",
                   help=("Specify a URL or file location for the setup file. "
-                        "If you use Setuptools, this will default to " +
+                        "If you use Setuptools, this will default to " + 
                         setuptools_source + "; if you use Distribute, this "
-                        "will default to " + distribute_source +"."))
+                        "will default to " + distribute_source + "."))
 parser.add_option("--download-base", action="callback", dest="download_base",
                   callback=normalize_to_url, nargs=1, type="string",
                   help=("Specify a URL or directory for downloading "

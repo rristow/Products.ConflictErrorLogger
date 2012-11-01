@@ -49,7 +49,7 @@ class TestBase(unittest.TestCase):
         """
 
         self.testdir = tempfile.mkdtemp()
-        self.storage = FileStorage(os.path.join(self.testdir,'Data.fs'))
+        self.storage = FileStorage(os.path.join(self.testdir, 'Data.fs'))
         self.db = ZODB.DB(self.storage)
 
         self.tm_A = transaction.TransactionManager()
@@ -84,17 +84,17 @@ class TestBase(unittest.TestCase):
         f.close()
         return text[len(continue_from_here):]
 
-    def configureCE(self, 
+    def configureCE(self,
                     CELogger_LOGFILE='conflict_error_test.log',
                     CELogger_FIRST_CHANGE_ONLY=True,
                     CELogger_RAISE_CONFLICTERRORPREVIEW=False,
-                    CELogger_ACTIVE= True):
+                    CELogger_ACTIVE=True):
         """ configure ClinflictErrorLooger
         """
-        self.logfile = os.path.join(self.testdir,CELogger_LOGFILE)
+        self.logfile = os.path.join(self.testdir, CELogger_LOGFILE)
         self.logCE = do_enable(self.logfile)
         self.logCE.level = logging.DEBUG
         conflictLogger.config(
                  log=self.logCE,
-                 FIRST_CHANGE_ONLY=CELogger_FIRST_CHANGE_ONLY, 
+                 FIRST_CHANGE_ONLY=CELogger_FIRST_CHANGE_ONLY,
                  RAISE_CONFLICTERRORPREVIEW=CELogger_RAISE_CONFLICTERRORPREVIEW)

@@ -16,10 +16,10 @@ class testConflictErrorLogger(TestBase):
     def test_NoConflict(self):
         """ Test if there is no messages if no conflict.
         """
-        self.configureCE( 
+        self.configureCE(
                     CELogger_FIRST_CHANGE_ONLY=True,
                     CELogger_RAISE_CONFLICTERRORPREVIEW=False,
-                    CELogger_ACTIVE= True)
+                    CELogger_ACTIVE=True)
 
         # TEST - No conlict
         # First edit and commit A
@@ -40,10 +40,10 @@ class testConflictErrorLogger(TestBase):
         assert(MSG_OBJ_CONFLICT not in self.getLog())
 
     def test_SimpleConflict(self):
-        self.configureCE( 
+        self.configureCE(
                     CELogger_FIRST_CHANGE_ONLY=True,
                     CELogger_RAISE_CONFLICTERRORPREVIEW=False,
-                    CELogger_ACTIVE= True)
+                    CELogger_ACTIVE=True)
         # First edit A 
         p_ConnA = self.conn_A.root()['p'] 
         p_ConnA.inc()
@@ -74,10 +74,10 @@ class testConflictErrorLogger(TestBase):
         assert("p_ConnA.inc()" in log)
 
     def test_MultipleConflict(self):
-        self.configureCE( 
+        self.configureCE(
                     CELogger_FIRST_CHANGE_ONLY=True,
                     CELogger_RAISE_CONFLICTERRORPREVIEW=False,
-                    CELogger_ACTIVE= True)
+                    CELogger_ACTIVE=True)
         # First edit A 
 
         p_ConnA = self.conn_A.root()['p'] 
@@ -108,10 +108,10 @@ class testConflictErrorLogger(TestBase):
         self.assertTrue("p_ConnA.inc()" in log)
 
     def test_ConflictErrorPreview(self):
-        self.configureCE( 
+        self.configureCE(
                     CELogger_FIRST_CHANGE_ONLY=False,
                     CELogger_RAISE_CONFLICTERRORPREVIEW=True,
-                    CELogger_ACTIVE= True)
+                    CELogger_ACTIVE=True)
 
         # First edit A 
         p_ConnA = self.conn_A.root()['p'] 
@@ -126,10 +126,10 @@ class testConflictErrorLogger(TestBase):
         self.assertRaises(ConflictErrorPreview, p_ConnB.inc)
 
     def test_Various(self):
-        self.configureCE( 
+        self.configureCE(
                     CELogger_FIRST_CHANGE_ONLY=False,
                     CELogger_RAISE_CONFLICTERRORPREVIEW=False,
-                    CELogger_ACTIVE= True)
+                    CELogger_ACTIVE=True)
         # First edit A 
 
         p_ConnA = self.conn_A.root()['p'] 

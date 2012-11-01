@@ -22,10 +22,10 @@ def AlreadyApplied(patch):
     return False
 
 if not AlreadyApplied('ConflictLogger.__init__'):
-    ACTIVE=os.environ.get('CELogger_ACTIVE', True)
-    LOGFILE=os.environ.get('CELogger_LOGFILE', '')
-    FIRST_CHANGE_ONLY=os.environ.get('CELogger_FIRST_CHANGE_ONLY', True)
-    RAISE_CONFLICTERRORPREVIEW=os.environ.get(
+    ACTIVE = os.environ.get('CELogger_ACTIVE', True)
+    LOGFILE = os.environ.get('CELogger_LOGFILE', '')
+    FIRST_CHANGE_ONLY = os.environ.get('CELogger_FIRST_CHANGE_ONLY', True)
+    RAISE_CONFLICTERRORPREVIEW = os.environ.get(
                                 'CELogger_RAISE_CONFLICTERRORPREVIEW', False)
 
     if LOGFILE:

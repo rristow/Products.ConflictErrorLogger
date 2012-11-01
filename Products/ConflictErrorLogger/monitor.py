@@ -26,9 +26,9 @@ class ConflictLogger(object):
     log = None
     is_active = True
 
-    def config(self, 
+    def config(self,
                  log,
-                 FIRST_CHANGE_ONLY=True, 
+                 FIRST_CHANGE_ONLY=True,
                  RAISE_CONFLICTERRORPREVIEW=False):
 
         self.log = log
@@ -37,31 +37,31 @@ class ConflictLogger(object):
         # Raise an exception when a conflict error is detected
         self.RAISE_CONFLICTERRORPREVIEW = RAISE_CONFLICTERRORPREVIEW
 
-    def frm(self,msg,thread=None,connection=None, obj=None, traceback=None):
+    def frm(self, msg, thread=None, connection=None, obj=None, traceback=None):
         """ Format the message to the log.
         """
-        msg_h = ["time: %s"%time.strftime('%H:%M:%S')]
+        msg_h = ["time: %s" % time.strftime('%H:%M:%S')]
         if  thread:
-            msg_h.append("thread: %s"%thread.get_ident())
+            msg_h.append("thread: %s" % thread.get_ident())
         if  connection:
-            msg_h.append("connection: %s"%connection)
+            msg_h.append("connection: %s" % connection)
         if  obj:
             oid = obj._p_oid
             oid_str = tid_repr(oid)
-            msg_h.append("object._p_oid: %s"%oid_str)
-            msg_h.append("object.to_string: %s"%obj)
+            msg_h.append("object._p_oid: %s" % oid_str)
+            msg_h.append("object.to_string: %s" % obj)
 
-        msg = "[%s]: %s"%(", ".join(msg_h), msg)
+        msg = "[%s]: %s" % (", ".join(msg_h), msg)
 
         if traceback:
-            msg += ">>>>>>>>\n%s\n<<<<<<<<"%traceback
+            msg += ">>>>>>>>\n%s\n<<<<<<<<" % traceback
         return msg
 
-    def appendLog(self, msg, level=logging.WARNING, thread=None, 
+    def appendLog(self, msg, level=logging.WARNING, thread=None,
                  connection=None, obj=None, traceback=None):
         """ Append a message to the log.
         """
-        msg = self.frm(msg, thread,connection, obj, traceback)
+        msg = self.frm(msg, thread, connection, obj, traceback)
         self.log.log(level, msg)
 
     def get_traceback(self):
@@ -78,7 +78,7 @@ class ConflictLogger(object):
             connections_pool = self.obj_pool[poid]
         else:
             connections_pool = {}
-            self.appendLog("objpool_add, added: %s, %s"%(actual_obj, tid_repr(poid)), level=logging.DEBUG)
+            self.appendLog("objpool_add, added: %s, %s" % (actual_obj, tid_repr(poid)), level=logging.DEBUG)
             self.obj_pool[poid] = connections_pool
 
         # The object is already been edit in ...
@@ -89,26 +89,26 @@ class ConflictLogger(object):
                 if not self.FIRST_CHANGE_ONLY:
                     self.appendLog(MSG_OBJ_CONTINUE_EDITING, level=logging.DEBUG, connection=actual_conn, obj=actual_obj)
                     tb_info = self.frm(MSG_OBJ_CONTINUE_EDITING)
-                    connections_pool[actual_conn] += "\n%s traceback:\n%s"%(tb_info,traceback)
+                    connections_pool[actual_conn] += "\n%s traceback:\n%s" % (tb_info, traceback)
                     return True
             else:
                 # ... another connection
                 self.appendLog(MSG_OBJ_ALREADY_EDITED, level=logging.DEBUG, connection=actual_conn, obj=actual_obj)
                 tb_info = self.frm(MSG_OBJ_ALREADY_EDITED, connection=actual_conn, obj=actual_obj)
-                connections_pool[actual_conn] = "%s traceback:\n%s"%(tb_info ,traceback)
+                connections_pool[actual_conn] = "%s traceback:\n%s" % (tb_info , traceback)
                 return True
         else:
             # The object start to is already been edit in ..
             self.appendLog(MSG_OBJ_EDITING, level=logging.DEBUG, connection=actual_conn, obj=actual_obj)
             tb_info = self.frm(MSG_OBJ_EDITING, connection=actual_conn, obj=actual_obj)
-            connections_pool[actual_conn] = "%s traceback:\n%s"%(tb_info ,traceback)
+            connections_pool[actual_conn] = "%s traceback:\n%s" % (tb_info , traceback)
             return True
 
     def search_conflicting_data(self, actual_conn, actual_obj):
         """ Search for an conflicting data (not the actual_conn) in the pool
         """
         poid = actual_obj._p_oid
-        result_tb=[]
+        result_tb = []
 
         # Check if ZODB is changing this object
         if poid in self.obj_pool.keys():
@@ -129,7 +129,7 @@ class ConflictLogger(object):
         """
         # Remove connections from pool
         for poid, connections_pool in self.obj_pool.items():
-            conn_todel =  []
+            conn_todel = []
             for conn in connections_pool:
                 registered_obj_oids = [o._p_oid for o in conn._registered_objects]
                 if poid not in registered_obj_oids:
@@ -137,18 +137,18 @@ class ConflictLogger(object):
 
             # Removed objects 
             for conn in conn_todel:
-                self.appendLog("sanitize_cache, Removed connection: %s"%conn, level=logging.DEBUG)
+                self.appendLog("sanitize_cache, Removed connection: %s" % conn, level=logging.DEBUG)
                 self.obj_pool[poid].pop(conn)
 
         # find objects with no information 
-        obj_todel =  []
+        obj_todel = []
         for poid, connections_pool in self.obj_pool.items():
             if not connections_pool:
                 obj_todel.append(poid)
 
         # Removed objects 
         for poid in obj_todel:
-            self.appendLog("sanitize_cache, Removed object: %s"%tid_repr(poid), level=logging.DEBUG)
+            self.appendLog("sanitize_cache, Removed object: %s" % tid_repr(poid), level=logging.DEBUG)
             self.obj_pool.pop(poid)
 
     def check_alreadychanged_obj(self, actual_conn, actual_obj):
@@ -202,7 +202,7 @@ class ConflictLogger(object):
             raise ConflictErrorPreview("A potential conflictError was "
                                        "detected. Check log for details.")
 
-    def notify_ConflictError(self, conflict_error_exc, message=None, 
+    def notify_ConflictError(self, conflict_error_exc, message=None,
             pobject=None, oid=None, serials=None, data=None):
         """ A ConflictError is been raised.
         """
@@ -212,9 +212,9 @@ class ConflictLogger(object):
         conflict_trace = self.search_conflicting_data(None, pobject)
 
         if conflict_trace:
-            self.appendLog("%s This object was initially changed here (traceback):\n"%MSG_OBJ_CONFLICT, thread=thread, obj=pobject, traceback=conflict_trace)
+            self.appendLog("%s This object was initially changed here (traceback):\n" % MSG_OBJ_CONFLICT, thread=thread, obj=pobject, traceback=conflict_trace)
         else:
-            self.appendLog("%s There is no traceback info.\n"%MSG_OBJ_CONFLICT, thread=thread, obj=pobject)
+            self.appendLog("%s There is no traceback info.\n" % MSG_OBJ_CONFLICT, thread=thread, obj=pobject)
 
         # If logging in another file, append also the actual traceback.
         if self.log.name == "CELogger":
